@@ -19,7 +19,7 @@ if (!jwtSecret) {
   console.error("JWT_SECRET environment variable is missing");
   process.exit(1);
 }
-app.use(cors());
+app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json());
 app.use(cookieParser());
 

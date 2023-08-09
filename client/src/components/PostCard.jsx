@@ -5,18 +5,18 @@ import { useContext } from "react";
 import { formatISO9075 } from "date-fns";
 import { Link } from "react-router-dom";
 
-function Post({ _id, title, summary, cover, content, createdAt, author }) {
-  const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+function PostCard({ _id, title, summary, cover, content, createdAt, author }) {
+  const { isDarkMode, baseURL } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
   const shadowColor = isDarkMode ? "white" : "";
 
   return (
     <div
-      className={`p-5 flex flex-col md:flex-row w-full max-w-3xl mx-auto rounded-lg bg-${bgColor} text-${textColor} shadow-md transition-shadow`}
+      className={`p-3 md:p-5 flex flex-col md:flex-row w-full max-w-3xl mx-auto rounded-lg bg-${bgColor} text-${textColor} shadow-md transition-shadow`}
     >
       <img
-        src={`http://localhost:5000/${cover}`}
+        src={baseURL+`/${cover}`}
         alt=""
         className="h-[180px] w-full md:w-1/2 object-cover rounded-lg md:h-[300px]"
       />
@@ -42,4 +42,4 @@ function Post({ _id, title, summary, cover, content, createdAt, author }) {
   );
 }
 
-export default Post;
+export default PostCard;

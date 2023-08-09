@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
-
+const baseURL = "http://localhost:5000";
 const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -19,10 +19,10 @@ const ThemeProvider = ({ children }) => {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+    <ThemeContext.Provider value={{ isDarkMode, toggleDarkMode, baseURL }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export { ThemeProvider, ThemeContext };
+export { ThemeProvider, ThemeContext, baseURL };

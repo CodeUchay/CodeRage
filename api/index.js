@@ -19,7 +19,7 @@ if (!jwtSecret) {
   console.error("JWT_SECRET environment variable is missing");
   process.exit(1);
 }
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -255,7 +255,6 @@ app.delete("/post/:id", async (req, res) => {
   });
 });
 
-
 // Handle unhandled routes
 app.use((req, res, next) => {
   res.status(404).json({ error: "Route not found" });
@@ -270,3 +269,5 @@ app.use((err, req, res, next) => {
 app.listen(5000, () => {
   console.log("Server is running on port 5000");
 });
+
+module.exports = app;

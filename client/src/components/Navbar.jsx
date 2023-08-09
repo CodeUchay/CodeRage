@@ -10,7 +10,7 @@ import { UserContext } from "../UserContext";
 import { Navigate } from "react-router-dom";
 
 function Navbar() {
-  const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+  const { isDarkMode, toggleDarkMode, baseURL } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
   document.body.style.backgroundColor = isDarkMode ? "rgb(2 6 23)" : "white";
@@ -18,7 +18,7 @@ function Navbar() {
 
   
   useEffect(() => {
-    fetch("http://localhost:5000/profile", { credentials: "include" }).then(
+    fetch(baseURL+"/profile", { credentials: "include" }).then(
       (response) => {
         response.json().then((data) => {
           setUserInfo(data);
@@ -39,7 +39,7 @@ function Navbar() {
 
   function logout(){
     setIsMenuOpen(false)
-    fetch('http://localhost:5000/logout', {credentials: 'include', method: 'POST'} );
+    fetch(baseURL+'/logout', {credentials: 'include', method: 'POST'} );
     setUserInfo(null);
     <Navigate to={'/'}/>
   }

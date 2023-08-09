@@ -5,7 +5,7 @@ import { UserContext } from "../UserContext";
 import { ThemeContext } from "../theme";
 
 function PostPage() {
-  const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+  const { isDarkMode, baseURL } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "bg-slate-950" : "bg-white";
   const textColor = isDarkMode ? "text-white" : "text-black";
 
@@ -15,7 +15,7 @@ function PostPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:5000/post/${id}`)
+    fetch(baseURL+`/post/${id}`)
       .then((response) => response.json())
       .then((postInfo) => {
         setPostInfo(postInfo);
@@ -26,7 +26,7 @@ function PostPage() {
 
   const deletePost = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/post/${postInfo._id}`, {
+      const response = await fetch(baseURL+`/post/${postInfo._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -108,7 +108,7 @@ function PostPage() {
 
           <div className=" mt-8 lg:mt-0 lg:w-full">
             <img
-              src={`http://localhost:5000/${postInfo.cover}`}
+              src={baseURL+`/${postInfo.cover}`}
               alt=""
               className="rounded-lg max-h-80  min-w-full object-cover"
             />

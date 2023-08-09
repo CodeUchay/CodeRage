@@ -4,7 +4,7 @@ import Editor from "../components/Editor";
 import { ThemeContext } from "../theme";
 
 export default function EditPost() {
-  const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+  const { isDarkMode } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
   const shadowColor = isDarkMode ? "white" : "";
@@ -58,7 +58,7 @@ export default function EditPost() {
       >
         <h1>Edit Post</h1>
         <form onSubmit={updatePost} className=" flex flex-col gap-3">
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Title:
           </label>
           <input
@@ -68,7 +68,7 @@ export default function EditPost() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Summary:
           </label>
           <input
@@ -78,7 +78,7 @@ export default function EditPost() {
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
           />
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Image:
           </label>
           <input
@@ -86,11 +86,11 @@ export default function EditPost() {
             type="file"
             onChange={(e) => setFiles(e.target.files)}
           />
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Content:
           </label>
           <Editor onChange={setContent} value={content} />
-          <button class="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full">
+          <button className="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full">
             Update post
           </button>
         </form>

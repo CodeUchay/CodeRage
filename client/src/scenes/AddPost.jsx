@@ -6,7 +6,7 @@ import "react-quill/dist/quill.snow.css";
 import { Navigate } from "react-router-dom";
 
 function AddPost() {
-  const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+  const { isDarkMode, baseURL } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
   const shadowColor = isDarkMode ? "white" : "";
@@ -28,7 +28,7 @@ function AddPost() {
       alert("Please fill in all required fields.");
       return;
     }
-    const response = await fetch("http://localhost:5000/createpost", {
+    const response = await fetch(baseURL+"/createpost", {
       method: "POST",
       body: data,
       credentials: "include",
@@ -50,7 +50,7 @@ function AddPost() {
       >
         <h1>Create Post</h1>
         <form onSubmit={createNewPost} className=" flex flex-col gap-3">
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Title:
           </label>
           <input
@@ -60,7 +60,7 @@ function AddPost() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Summary:
           </label>
           <input
@@ -70,7 +70,7 @@ function AddPost() {
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
           />
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Image:
           </label>
           <input
@@ -78,13 +78,13 @@ function AddPost() {
             type="file"
             onChange={(e) => setFiles(e.target.files)}
           />
-          <label for="email" class="block text-sm leading-6 ">
+          <label for="email" className="block text-sm leading-6 ">
             Content:
           </label>
           <Editor value={content} onChange={setContent}></Editor>
           <button
             type="submit"
-            class="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full"
+            className="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full"
           >
             <span className="text-white">Add Post</span>
           </button>

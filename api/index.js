@@ -15,16 +15,11 @@ require("dotenv").config();
 
 const salt = bcrypt.genSaltSync(10);
 // Generate a random JWT secret of 256 bits (32 bytes)
-const jwtSecret = crypto.randomBytes(32).toString("hex");
+const MONGODB_URI='mongodb+srv://odinsuche:AkA5cbG7OhG169dC@purple.ubcncfn.mongodb.net/?retryWrites=true&w=majority';
 
-// Now you can set jwtSecret as an environment variable
-// This value should be stored securely, not exposed in your code
-process.env.JWT_SECRET = jwtSecret;
+const jwtSecret='dsksjosqqqijdnkdaofijhogbuifh';
 
-if (!jwtSecret) {
-  console.error("JWT_SECRET environment variable is missing");
-  process.exit(1);
-}
+
 
 app.use(cors({
   credentials: true,
@@ -35,13 +30,8 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-const mongodbUri = process.env.MONGODB_URI;
-if (!mongodbUri) {
-  console.error("MONGODB_URI environment variable is missing");
-  process.exit(1);
-}
 mongoose
-  .connect(mongodbUri, {
+  .connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

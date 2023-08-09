@@ -39,9 +39,10 @@ mongoose
     process.exit(1);
   });
 
-app.get("/test", (res, req) => {
-  res.json("testingggggg");
-});
+  app.get("/test", (req, res) => {
+    res.json("testingggggg");
+  });
+  
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   try {

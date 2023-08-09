@@ -15,7 +15,6 @@ function Home() {
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        // ... other headers if needed
       },
     })
       .then((response) => response.json())

@@ -40,9 +40,9 @@ mongoose
   });
 
   app.get("/test", (req, res) => {
-    res.json("testingggggg");
+    res.json("The server is online");
   });
-  
+
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
   try {

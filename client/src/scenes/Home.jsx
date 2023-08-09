@@ -9,12 +9,22 @@ function Home() {
   const textColor = isDarkMode ? "white" : "black";
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    fetch(baseURL + "/post").then((response) => {
-      response.json().then((posts) => {
+  useEffect( () => {
+    fetch(baseURL + "/post", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        // ... other headers if needed
+      },
+    })
+      .then((response) => response.json())
+      .then((posts) => {
         setPosts(posts);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
       });
-    });
   }, []);
 
   return (

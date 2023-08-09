@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
-const baseURL = "http://localhost:5000";
+const baseURL = "https://code-rage-api.vercel.app";
 const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 

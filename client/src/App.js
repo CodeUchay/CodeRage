@@ -5,6 +5,7 @@ import Login from './scenes/Login';
 import Register from './scenes/Register';
 import AddPost from './scenes/AddPost';
 import PostPage from './scenes/PostPage';
+import EditPost from './scenes/EditPost';
 import { UserContextProvider } from './UserContext';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path="/register" element={<Register/>}/>
       <Route path="/addpost" element={<AddPost/>}/>
       <Route path="/post/:id" element={<PostPage/>}/>
+      <Route path="/editpost/:id" element={<EditPost/>}/>
     </Routes>
     </UserContextProvider>
    </>

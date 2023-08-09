@@ -1,35 +1,42 @@
-import React from "react";
-import { ThemeContext } from "../theme";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
 import Editor from "../components/Editor";
-import "react-quill/dist/quill.snow.css";
-import { Navigate } from "react-router-dom";
+import { ThemeContext } from "../theme";
 
-function AddPost() {
+export default function EditPost() {
   const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
   const shadowColor = isDarkMode ? "white" : "";
-
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
 
-  async function createNewPost(e) {
+  useEffect(() => {
+    fetch("http://localhost:5000/post/" + id).then((response) => {
+      response.json().then((postInfo) => {
+        setTitle(postInfo.title);
+        setContent(postInfo.content);
+        setSummary(postInfo.summary);
+      });
+    });
+  }, []);
+
+  async function updatePost(e) {
+    e.preventDefault();
     const data = new FormData();
     data.set("title", title);
     data.set("summary", summary);
     data.set("content", content);
-    data.set("file", files[0]); //incase there are multiple files
-    e.preventDefault();
-    if (!title || !summary || !content || !files[0]) {
-      alert("Please fill in all required fields.");
-      return;
+    data.set("id", id);
+    if (files?.[0]) {
+      data.set("file", files?.[0]);
     }
-    const response = await fetch("http://localhost:5000/createpost", {
-      method: "POST",
+    const response = await fetch("http://localhost:5000/post", {
+      method: "PUT",
       body: data,
       credentials: "include",
     });
@@ -37,8 +44,9 @@ function AddPost() {
       setRedirect(true);
     }
   }
+
   if (redirect) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/post/" + id} />;
   }
 
   return (
@@ -48,15 +56,15 @@ function AddPost() {
       <div
         className={` p-5 flex flex-col lg:justify-center lg:items-center rounded lg:p-8 gap-4 shadow-md shadow-${shadowColor} `}
       >
-        <h1>Create Post</h1>
-        <form onSubmit={createNewPost} className=" flex flex-col gap-3">
+        <h1>Edit Post</h1>
+        <form onSubmit={updatePost} className=" flex flex-col gap-3">
           <label for="email" class="block text-sm leading-6 ">
             Title:
           </label>
           <input
             className={` text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-purple-100 focus:ring-purple-300 ring-1 `}
             type="title"
-            placeholder="Title"
+            placeholder={"Title"}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
@@ -66,7 +74,7 @@ function AddPost() {
           <input
             className={` text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-purple-100 focus:ring-purple-300 ring-1 `}
             type="summary"
-            placeholder="summary"
+            placeholder={"Summary"}
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
           />
@@ -81,17 +89,12 @@ function AddPost() {
           <label for="email" class="block text-sm leading-6 ">
             Content:
           </label>
-          <Editor value={content} onChange={setContent}></Editor>
-          <button
-            type="submit"
-            class="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full"
-          >
-            <span className="text-white">Add Post</span>
+          <Editor onChange={setContent} value={content} />
+          <button class="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full">
+            Update post
           </button>
         </form>
       </div>
     </div>
   );
 }
-
-export default AddPost;

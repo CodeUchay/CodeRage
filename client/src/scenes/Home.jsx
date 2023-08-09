@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Post from "../components/Post";
+import PostCard from "../components/PostCard";
 import { ThemeContext } from "../theme";
 import { useContext, useEffect } from "react";
 
@@ -22,7 +22,7 @@ function Home() {
     <div
       className={`bg-${bgColor} flex flex-col gap-5 pt-28 p-16 md:pt-32 md:px-36 text-${textColor}`}
     >
-      <> {posts.length > 0 && posts.map((post) => <Post {...post} />)}</>
+      <> {posts.length > 0 && posts.map((post) => <PostCard {...post} />)}</>
     </div>
   );
 }

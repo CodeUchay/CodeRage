@@ -54,7 +54,7 @@ function Navbar() {
           className="flex justify-center items-center gap-1 cursor-pointer"
         >
           <span className={`text-xl font-semibold text-purple-500`}>CodeRage</span>
-          <GiFireDash size={20} className="text-purple-700 "></GiFireDash>
+          <GiFireDash size={20} className="text-purple-500 "></GiFireDash>
         </Link>
         <div className="flex justify-center items-center gap-5">
         <MdDarkMode
@@ -66,10 +66,10 @@ function Navbar() {
             <>
             <div className="hidden lg:flex md:gap-5 md:justify-center md:items-center">
             <h1 className=" text-sm text-gray-400">User: {email}</h1><Link to="/addpost">
-            <button className=" bg-slate-500 p-3 text-white rounded">Add Post</button>
+            <button className=" bg-purple-600 p-3 text-white hover:bg-purple-700 rounded">Add Post</button>
           </Link>
           
-            <button onClick={logout} className=" bg-red-500 p-3 text-white rounded">LogOut</button>
+            <button onClick={logout} className=" bg-red-500 hover:bg-red-600 p-3 text-white rounded">LogOut</button>
          
           </div>
           
@@ -82,10 +82,10 @@ function Navbar() {
           ) : (
             <>
               <Link to="/Login">
-                <button className="text-purple-400 hover:text-purple-600">Login</button>
+                <button className="text-purple-400 hover:text-purple-600 hover:underline">Login</button>
               </Link>
               <Link to="/Register">
-                <button className="text-purple-400  hover:text-purple-600">Register</button>
+                <button className="text-purple-400  hover:text-purple-600 hover:underline">Register</button>
               </Link>
             </>
           )}
@@ -97,11 +97,11 @@ function Navbar() {
         <div className={`{px-4 py-2 bg-${bgColor} lg:hidden`}>
           <div className={`mx-8 p-3 flex flex-col gap-4 `}>
           <h1 className="text-sm -mt-6 text-gray-400">User: {email}</h1>
-            <Link to={'/addpost'}  onClick={()=> setIsMenuOpen(false)} ><button className="block w-full p-3 text-white bg-slate-700 rounded hover:bg-purple-500 hover:text-white">
+            <Link to={'/addpost'}  onClick={()=> setIsMenuOpen(false)} ><button className="block w-full p-3 text-white bg-purple-500 rounded hover:bg-purple-600 hover:text-white">
               Add Post
             </button>
             </Link>
-            <button onClick={logout} className="block w-full mt-2 bg-red-500 p-3 text-white rounded">
+            <button onClick={logout} className="block w-full mt-2 bg-red-500 hover:bg-red-600 p-3 text-white rounded">
               Logout
             </button></div>
         </div>

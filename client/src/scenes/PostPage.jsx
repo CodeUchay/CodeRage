@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 import { UserContext } from "../UserContext";
 import { ThemeContext } from "../theme";
@@ -12,6 +12,7 @@ function PostPage() {
   const [postInfo, setPostInfo] = useState(null);
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:5000/post/${id}`)
@@ -22,6 +23,27 @@ function PostPage() {
   }, [id]);
 
   if (!postInfo) return null;
+
+  const deletePost = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/post/${postInfo._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        console.error("Error deleting post");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <div
@@ -35,13 +57,13 @@ function PostPage() {
               {formatISO9075(new Date(postInfo.createdAt))}
             </time>
             <div className="author text-gray-600 text-sm">
-              by :{postInfo.author.email}
+              by: {postInfo.author.email}
             </div>
-            {userInfo.id === postInfo.author._id && (
-              <div className=" mt-4">
+            {userInfo && userInfo.id === postInfo.author._id && (
+              <div className=" mt-4 flex gap-3">
                 <Link
                   className="inline-flex items-center px-4 py-2 rounded-md text-white bg-purple-600 hover:bg-purple-700"
-                  to={`/edit/${postInfo._id}`}
+                  to={`/editpost/${postInfo._id}`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -59,6 +81,27 @@ function PostPage() {
                   </svg>
                   Edit post
                 </Link>
+                <div
+                  className="inline-flex items-center px-4 py-2 cursor-pointer rounded-md text-white bg-red-500 hover:bg-red-600"
+                  onClick={deletePost}
+                >
+                  <svg
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  className="w-6 h-6 mr-2"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    d="M6 18L18 6M6 6l12 12"
+  />
+</svg>
+
+                  Delete
+                </div>
               </div>
             )}
           </div>

@@ -15,15 +15,29 @@ require("dotenv").config();
 
 const salt = bcrypt.genSaltSync(10);
 const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+  console.error("JWT_SECRET environment variable is missing");
+  process.exit(1);
+}
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(cookieParser());
 
 const mongodbUri = process.env.MONGODB_URI;
-mongoose.connect(mongodbUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+if (!mongodbUri) {
+  console.error("MONGODB_URI environment variable is missing");
+  process.exit(1);
+}
+mongoose
+  .connect(mongodbUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+    process.exit(1);
+  });
 
 app.get("/test", (res, req) => {
   res.json("testingggggg");
@@ -175,12 +189,84 @@ app.get("/post", async (req, res) => {
   );
 });
 
-app.get('/post/:id', async (req, res) => {
-  const {id} = req.params;
-  const postDoc = await Post.findById(id).populate('author', ['email']);
+app.get("/post/:id", async (req, res) => {
+  const { id } = req.params;
+  const postDoc = await Post.findById(id).populate("author", ["email"]);
   res.json(postDoc);
-})
+});
 
-app.listen(5000);
-//
-//
+app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
+  let newPath = null;
+  if (req.file) {
+    const { originalname, path } = req.file;
+    const parts = originalname.split(".");
+    const ext = parts[parts.length - 1];
+    newPath = path + "." + ext;
+    fs.renameSync(path, newPath);
+  }
+
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, info) => {
+    if (err) throw err;
+    const { id, title, summary, content } = req.body;
+    const postDoc = await Post.findById(id);
+    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+    if (!isAuthor) {
+      return res.status(400).json("you are not the author");
+    }
+    postDoc.title = title;
+    postDoc.summary = summary;
+    postDoc.content = content;
+    if (newPath) {
+      postDoc.cover = newPath;
+    }
+    await postDoc.save();
+    res.json(postDoc);
+  });
+});
+
+app.delete("/post/:id", async (req, res) => {
+  const postId = req.params.id;
+
+  const { token } = req.cookies;
+  jwt.verify(token, jwtSecret, {}, async (err, info) => {
+    if (err) throw err;
+    try {
+      const postDoc = await Post.findById(postId);
+      if (!postDoc) {
+        return res.status(404).json("Post not found");
+      }
+      const isAuthor =
+        JSON.stringify(postDoc.author) === JSON.stringify(info.id);
+      if (!isAuthor) {
+        return res.status(403).json("You are not the author");
+      }
+      // Delete the associated cover image file from the uploads directory
+      const coverPath = path.join(__dirname, postDoc.cover);
+      if (fs.existsSync(coverPath)) {
+        fs.unlinkSync(coverPath);
+      }
+      await Post.deleteOne({ _id: postId }); // Use deleteOne to delete the post
+      res.json("Post deleted successfully");
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+});
+
+
+// Handle unhandled routes
+app.use((req, res, next) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
+});

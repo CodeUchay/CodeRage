@@ -18,14 +18,22 @@ function Navbar() {
 
   
   useEffect(() => {
-    fetch(baseURL+"/profile").then(
-      (response) => {
-        response.json().then((data) => {
-          setUserInfo(data);
-        });
-      }
-    );
+    fetch(baseURL + "/profile")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user profile");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUserInfo(data);
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle the error here, such as redirecting to a login page
+      });
   }, []);
+  
 
   const email = userInfo?.email
 

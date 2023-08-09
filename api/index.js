@@ -145,39 +145,6 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
   });
 });
 
-app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
-  const { originalname, path } = req.file;
-  const parts = originalname.split(".");
-  const ext = parts[parts.length - 1];
-
-  // Generate a random alphanumeric filename of length 10
-  const randomFileName = crypto.randomBytes(5).toString("hex"); // Generates 10 characters (5 bytes in hex)
-
-  const newPath = `uploads/${randomFileName}.${ext}`;
-
-  // Rename the file to the new path
-  fs.renameSync(path, newPath);
-
-  const { token } = req.cookies;
-  jwt.verify(token, jwtSecret, {}, async (err, info) => {
-    if (err) throw err;
-    try {
-      const { title, summary, content } = req.body;
-      const postDoc = await Post.create({
-        title,
-        summary,
-        content,
-        cover: newPath, // Use the new filename as the cover for the post
-        author: info.id,
-      });
-      res.json(postDoc);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  });
-});
-
 // Serve static files from the "uploads" directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

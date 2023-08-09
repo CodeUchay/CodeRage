@@ -18,7 +18,7 @@ function Navbar() {
 
   
   useEffect(() => {
-    fetch(baseURL+"/profile", { credentials: "include" }).then(
+    fetch(baseURL+"/profile").then(
       (response) => {
         response.json().then((data) => {
           setUserInfo(data);
@@ -39,7 +39,7 @@ function Navbar() {
 
   function logout(){
     setIsMenuOpen(false)
-    fetch(baseURL+'/logout', {credentials: 'include', method: 'POST'} );
+    fetch(baseURL+'/logout', {method: 'POST'} );
     setUserInfo(null);
     <Navigate to={'/'}/>
   }

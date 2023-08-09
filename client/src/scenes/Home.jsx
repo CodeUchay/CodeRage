@@ -12,7 +12,6 @@ function Home() {
   useEffect( () => {
     fetch(baseURL + "/post", {
       method: "GET",
-      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },

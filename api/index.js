@@ -14,7 +14,13 @@ const path = require("path");
 require("dotenv").config();
 
 const salt = bcrypt.genSaltSync(10);
-const jwtSecret = process.env.JWT_SECRET;
+// Generate a random JWT secret of 256 bits (32 bytes)
+const jwtSecret = crypto.randomBytes(32).toString("hex");
+
+// Now you can set jwtSecret as an environment variable
+// This value should be stored securely, not exposed in your code
+process.env.JWT_SECRET = jwtSecret;
+
 if (!jwtSecret) {
   console.error("JWT_SECRET environment variable is missing");
   process.exit(1);

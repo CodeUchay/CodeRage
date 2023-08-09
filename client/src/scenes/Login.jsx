@@ -17,14 +17,13 @@ function Login() {
   const [loginError, setLoginError] = useState(false);
   const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
-  
+
   async function login(e) {
     e.preventDefault();
     const res = await fetch(baseURL+"/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: { "content-type": "application/json" },
-      credentials: "include", //to save cookies
     });
     if (res.ok) {
       res.json().then(data => {

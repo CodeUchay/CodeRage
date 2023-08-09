@@ -39,9 +39,9 @@ mongoose
     process.exit(1);
   });
 
-  app.get("/test", (req, res) => {
-    res.json("The server is online");
-  });
+app.get("/test", (req, res) => {
+  res.json("The server is online");
+});
 
 app.post("/register", async (req, res) => {
   const { email, password } = req.body;
@@ -255,6 +255,5 @@ app.delete("/post/:id", async (req, res) => {
     }
   });
 });
-
 
 module.exports = app;

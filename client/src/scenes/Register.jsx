@@ -22,6 +22,7 @@ function Register() {
         method: "POST",
         body: JSON.stringify({ email, password }),
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
       if (res.status === 200) {
         alert("registration successful");

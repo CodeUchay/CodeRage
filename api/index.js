@@ -104,7 +104,7 @@ app.post("/logout", (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/"); // Set the destination folder for uploaded files
+    cb(null, "public/uploads/"); // Set the destination folder for uploaded files
   },
   filename: function (req, file, cb) {
     // Set the file name to be the original name
@@ -122,7 +122,8 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
   // Generate a random alphanumeric filename of length 10
   const randomFileName = crypto.randomBytes(5).toString("hex"); // Generates 10 characters (5 bytes in hex)
 
-  const newPath = `uploads/${randomFileName}.${ext}`;
+  const newPath = `public/uploads/${randomFileName}.${ext}`;
+
 
   // Rename the file to the new path
   fs.renameSync(path, newPath);

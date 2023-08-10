@@ -12,16 +12,15 @@ const fs = require("fs");
 const crypto = require("crypto");
 const path = require("path");
 require("dotenv").config();
-const admin = require('firebase-admin');
+const admin = require("firebase-admin");
 
 const salt = bcrypt.genSaltSync(10);
 // Generate a random JWT secret of 256 bits (32 bytes)
-const MONGODB_URI=process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const jwtSecret = process.env.JWT_SECRET;
 
 const firebaseAdminSdkJson = process.env.FIREBASE_ADMIN_SDK_JSON;
-
 
 admin.initializeApp({
   credential: admin.credential.cert(JSON.parse(firebaseAdminSdkJson)),
@@ -30,11 +29,13 @@ admin.initializeApp({
 
 const bucket = admin.storage().bucket();
 
-app.use(cors({
-  credentials: true,
-  origin: ["http://localhost:3000", "https://your-production-domain.com"],
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-}));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "https://your-production-domain.com"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -86,16 +87,19 @@ app.post("/login", async (req, res) => {
           return res.status(500).json({ error: "Internal Server Error" });
         }
         console.log(token);
-        console.log('////')
+        console.log("////");
         console.log(jwtSecret);
 
-        res.cookie("token", token, {
-          httpOnly: false,
-          secure: false, // Set to true if using HTTPS
-        }).json({
-          id: userDoc._id,
-          email,
-        });
+        res
+          .cookie("token", token, {
+            httpOnly: false,
+            secure: false, // Set to true if using HTTPS
+            sameSite: "None",
+          })
+          .json({
+            id: userDoc._id,
+            email,
+          });
       });
     } else {
       res.status(401).json({ error: "Wrong credentials" });
@@ -119,7 +123,6 @@ app.get("/profile", (req, res) => {
     res.json(info);
   });
 });
-
 
 app.post("/logout", (req, res) => {
   res.cookie("token", "").json("ok");
@@ -198,7 +201,6 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
 
 //   const newPath = `public/uploads/${randomFileName}.${ext}`;
 
-
 //   // Rename the file to the new path
 //   fs.renameSync(path, newPath);
 
@@ -221,8 +223,6 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
 //     }
 //   });
 // });
-
-
 
 app.get("/post", async (req, res) => {
   res.json(
@@ -300,4 +300,3 @@ app.delete("/post/:id", async (req, res) => {
 });
 
 module.exports = app;
-

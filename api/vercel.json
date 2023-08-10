@@ -98,6 +98,14 @@
             }
         },
         {
+          "src": "/post/.*",
+          "dest": "index.js",
+          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+          "headers": {
+            "Access-Control-Allow-Origin": "*"
+          }
+        },
+        {
             "src": "/createpost",
             "dest": "index.js",
             "methods": [

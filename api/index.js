@@ -18,7 +18,7 @@ const salt = bcrypt.genSaltSync(10);
 // Generate a random JWT secret of 256 bits (32 bytes)
 const MONGODB_URI=process.env.MONGODB_URI;
 
-const jwtSecret = process.env.JWT_SECRET
+const jwtSecret = 'dsksjosqqqijdnkdaofijhogbuifh';
 
 const firebaseAdminSdkJson = process.env.FIREBASE_ADMIN_SDK_JSON;
 
@@ -111,18 +111,20 @@ app.post("/logout", (req, res) => {
   res.cookie("token", "").json("ok");
 });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/uploads/");
-  },  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname); // Get the file extension
-    const randomFileName = crypto.randomBytes(10).toString("hex"); // Generates 20 characters (10 bytes in hex)
-    const sanitizedFileName = `${randomFileName}${ext}`; // Combine with the extension
-    cb(null, sanitizedFileName);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "public/uploads/");
+//   },  filename: function (req, file, cb) {
+//     const ext = path.extname(file.originalname); // Get the file extension
+//     const randomFileName = crypto.randomBytes(10).toString("hex"); // Generates 20 characters (10 bytes in hex)
+//     const sanitizedFileName = `${randomFileName}${ext}`; // Combine with the extension
+//     cb(null, sanitizedFileName);
+//   },
+// });
 
-const uploadMiddleware = multer({ storage: storage });
+// const uploadMiddleware = multer({ storage: storage });
+
+const uploadMiddleware = multer();
 
 app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
   const { originalname, buffer } = req.file; // Use buffer instead of path

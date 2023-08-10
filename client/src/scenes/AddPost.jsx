@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import Editor from "../components/Editor";
 import "react-quill/dist/quill.snow.css";
 import { Navigate } from "react-router-dom";
-import { storage } from '../firebase-config';
 
 function AddPost() {
   const { isDarkMode, baseURL } = useContext(ThemeContext);

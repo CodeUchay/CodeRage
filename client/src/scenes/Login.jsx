@@ -25,6 +25,7 @@ function Login() {
       body: JSON.stringify({ email, password }),
       headers: { "content-type": "application/json" },
     });
+
     if (res.ok) {
       res.json().then(data => {
         setUserInfo(data)
@@ -37,6 +38,7 @@ function Login() {
       }, 3500);
     }
   }
+  
   if (redirect) {
     return <Navigate to={"/"} />;
   }

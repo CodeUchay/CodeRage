@@ -85,7 +85,10 @@ app.post("/login", async (req, res) => {
         if (err) {
           return res.status(500).json({ error: "Internal Server Error" });
         }
-        res.cookie("token", token).json({
+        res.cookie("token", token, {
+          httpOnly: false,
+          secure: false, // Set to true if using HTTPS
+        }).json({
           id: userDoc._id,
           email,
         });

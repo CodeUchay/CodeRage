@@ -18,7 +18,10 @@ function Navbar() {
 
   
   useEffect(() => {
-    fetch(baseURL + "/profile")
+    fetch(baseURL + "/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }})
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch user profile");

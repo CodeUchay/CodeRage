@@ -16,7 +16,7 @@ function PostCard({ _id, title, summary, cover, content, createdAt, author }) {
       className={`p-3 md:p-5 flex flex-col md:flex-row w-full max-w-3xl mx-auto rounded-lg bg-${bgColor} text-${textColor} shadow-md transition-shadow`}
     >
       <img
-        src={baseURL+`/${cover}`}
+        src={baseURL+`/public/${cover}`}
         alt=""
         className="h-[180px] w-full md:w-1/2 object-cover rounded-lg md:h-[300px]"
       />

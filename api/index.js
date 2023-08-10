@@ -18,7 +18,7 @@ const salt = bcrypt.genSaltSync(10);
 // Generate a random JWT secret of 256 bits (32 bytes)
 const MONGODB_URI=process.env.MONGODB_URI;
 
-const jwtSecret = 'dsksjosqqqijdnkdaofijhogbuifh';
+const jwtSecret = process.env.JWT_SECRET;
 
 const firebaseAdminSdkJson = process.env.FIREBASE_ADMIN_SDK_JSON;
 
@@ -101,11 +101,18 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
+  if (!token) {
+    return res.status(401).json({ error: "No token provided" });
+  }
+
   jwt.verify(token, jwtSecret, {}, (err, info) => {
-    if (err) throw err;
+    if (err) {
+      return res.status(403).json({ error: "Invalid token" });
+    }
     res.json(info);
   });
 });
+
 
 app.post("/logout", (req, res) => {
   res.cookie("token", "").json("ok");

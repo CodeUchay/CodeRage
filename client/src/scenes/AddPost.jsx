@@ -19,6 +19,7 @@ function AddPost() {
 
   function getCookie(name) {
     const cookies = document.cookie.split('; ');
+    console.log(cookies)
     for (const cookie of cookies) {
       const [cookieName, cookieValue] = cookie.split('=');
       if (cookieName === name) {

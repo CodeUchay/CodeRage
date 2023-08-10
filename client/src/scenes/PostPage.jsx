@@ -15,7 +15,7 @@ function PostPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(baseURL+`/post/${id}`)
+    fetch(baseURL + `/post/${id}`)
       .then((response) => response.json())
       .then((postInfo) => {
         setPostInfo(postInfo);
@@ -26,7 +26,7 @@ function PostPage() {
 
   const deletePost = async () => {
     try {
-      const response = await fetch(baseURL+`/post/${postInfo._id}`, {
+      const response = await fetch(baseURL + `/post/${postInfo._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,6 @@ function PostPage() {
       console.error(error);
     }
   };
-
 
   return (
     <div
@@ -86,20 +85,19 @@ function PostPage() {
                   onClick={deletePost}
                 >
                   <svg
-  xmlns="http://www.w3.org/2000/svg"
-  fill="none"
-  viewBox="0 0 24 24"
-  stroke="currentColor"
-  className="w-6 h-6 mr-2"
->
-  <path
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    strokeWidth={2}
-    d="M6 18L18 6M6 6l12 12"
-  />
-</svg>
-
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="w-6 h-6 mr-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
                   Delete
                 </div>
               </div>
@@ -108,7 +106,7 @@ function PostPage() {
 
           <div className=" mt-8 lg:mt-0 lg:w-full">
             <img
-              src={baseURL+`/${postInfo.cover}`}
+              src={`${postInfo.cover}`}
               alt=""
               className="rounded-lg max-h-80  min-w-full object-cover"
             />

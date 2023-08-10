@@ -17,6 +17,17 @@ function AddPost() {
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
 
+  function getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+      const [cookieName, cookieValue] = cookie.split('=');
+      if (cookieName === name) {
+        return decodeURIComponent(cookieValue);
+      }
+    }
+    return null;
+  }
+  
   async function createNewPost(e) {
     const data = new FormData();
     data.set("title", title);
@@ -30,6 +41,7 @@ function AddPost() {
     }
     const token = getCookie("token");
 
+      console.log(token)
     const response = await fetch(baseURL+"/createpost", {
       method: "POST",
       body: data,

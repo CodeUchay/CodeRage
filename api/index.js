@@ -12,14 +12,23 @@ const fs = require("fs");
 const crypto = require("crypto");
 const path = require("path");
 require("dotenv").config();
+const admin = require('firebase-admin');
 
 const salt = bcrypt.genSaltSync(10);
 // Generate a random JWT secret of 256 bits (32 bytes)
-const MONGODB_URI='mongodb+srv://odinsuche:AkA5cbG7OhG169dC@purple.ubcncfn.mongodb.net/?retryWrites=true&w=majority';
+const MONGODB_URI=process.env.MONGODB_URI;
 
-const jwtSecret='dsksjosqqqijdnkdaofijhogbuifh';
+const jwtSecret = process.env.JWT_SECRET
+
+const firebaseAdminSdkJson = process.env.FIREBASE_ADMIN_SDK_JSON;
 
 
+admin.initializeApp({
+  credential: admin.credential.cert(JSON.parse(firebaseAdminSdkJson)),
+  storageBucket: "gs://coderage-mern.appspot.com",
+});
+
+const bucket = admin.storage().bucket();
 
 app.use(cors({
   credentials: true,
@@ -105,8 +114,7 @@ app.post("/logout", (req, res) => {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/uploads/");
-  },
-  filename: function (req, file, cb) {
+  },  filename: function (req, file, cb) {
     const ext = path.extname(file.originalname); // Get the file extension
     const randomFileName = crypto.randomBytes(10).toString("hex"); // Generates 20 characters (10 bytes in hex)
     const sanitizedFileName = `${randomFileName}${ext}`; // Combine with the extension
@@ -117,41 +125,87 @@ const storage = multer.diskStorage({
 const uploadMiddleware = multer({ storage: storage });
 
 app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
-  const { originalname, path } = req.file;
+  const { originalname, buffer } = req.file; // Use buffer instead of path
+
   const parts = originalname.split(".");
   const ext = parts[parts.length - 1];
+  const randomFileName = crypto.randomBytes(5).toString("hex");
+  const uniqueFilename = `${randomFileName}.${ext}`;
 
-  // Generate a random alphanumeric filename of length 10
-  const randomFileName = crypto.randomBytes(5).toString("hex"); // Generates 10 characters (5 bytes in hex)
+  const file = bucket.file(`images/${uniqueFilename}`); // Upload to Firebase Storage
 
-  const newPath = `public/uploads/${randomFileName}.${ext}`;
+  const stream = file.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype,
+    },
+  });
 
+  stream.on("error", (err) => {
+    console.error("Error uploading image to Firebase:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  });
 
-  // Rename the file to the new path
-  fs.renameSync(path, newPath);
-
-  const { token } = req.cookies;
-  jwt.verify(token, jwtSecret, {}, async (err, info) => {
-    if (err) throw err;
+  stream.on("finish", async () => {
     try {
+      const { token } = req.cookies;
       const { title, summary, content } = req.body;
-      const postDoc = await Post.create({
-        title,
-        summary,
-        content,
-        cover: newPath, // Use the new filename as the cover for the post
-        author: info.id,
+      jwt.verify(token, jwtSecret, {}, async (err, info) => {
+        if (err) throw err;
+        const postDoc = await Post.create({
+          title,
+          summary,
+          content,
+          cover: `https://storage.googleapis.com/${bucket.name}/${file.name}`, // Corrected URL
+          author: info.id,
+        });
+        res.json(postDoc);
       });
-      res.json(postDoc);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Internal Server Error" });
     }
   });
+
+  stream.end(buffer); // End the stream with the image buffer
 });
 
-const publicUploadsPath = path.join(__dirname, "public/uploads");
-app.use("/uploads", express.static(publicUploadsPath));
+// const publicUploadsPath = path.join(__dirname, "public/uploads");
+// app.use("/uploads", express.static(publicUploadsPath));
+
+// app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
+//   const { originalname, path } = req.file;
+//   const parts = originalname.split(".");
+//   const ext = parts[parts.length - 1];
+
+//   // Generate a random alphanumeric filename of length 10
+//   const randomFileName = crypto.randomBytes(5).toString("hex"); // Generates 10 characters (5 bytes in hex)
+
+//   const newPath = `public/uploads/${randomFileName}.${ext}`;
+
+
+//   // Rename the file to the new path
+//   fs.renameSync(path, newPath);
+
+//   const { token } = req.cookies;
+//   jwt.verify(token, jwtSecret, {}, async (err, info) => {
+//     if (err) throw err;
+//     try {
+//       const { title, summary, content } = req.body;
+//       const postDoc = await Post.create({
+//         title,
+//         summary,
+//         content,
+//         cover: newPath, // Use the new filename as the cover for the post
+//         author: info.id,
+//       });
+//       res.json(postDoc);
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     }
+//   });
+// });
+
 
 
 app.get("/post", async (req, res) => {

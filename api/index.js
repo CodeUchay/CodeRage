@@ -166,9 +166,9 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
   stream.on("finish", async () => {
     try {
       const { token } = req.cookies;
-      console.log("token----->>"+ token )
+      console.log("token----->>" + token);
 
-      console.log("Decleared token----->>"+ jwtSecret )
+      console.log("Decleared token----->>" + jwtSecret);
       const { title, summary, content } = req.body;
       jwt.verify(token, jwtSecret, {}, async (err, info) => {
         if (err) throw err;
@@ -176,9 +176,21 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
           title,
           summary,
           content,
-          cover: `https://storage.googleapis.com/${bucket.name}/${file.name}`, // Corrected URL
+          cover: "", // We will update this later
           author: info.id,
         });
+
+        // Get the download URL for the uploaded file
+        const [downloadUrl] = await file.getSignedUrl({
+          action: "read",
+          expires: "03-01-2500", // Set a reasonable expiration date
+        });
+
+        // Update the postDoc with the download URL
+        postDoc.cover = downloadUrl;
+
+        await postDoc.save(); // Save the updated postDoc
+
         res.json(postDoc);
       });
     } catch (err) {

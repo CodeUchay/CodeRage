@@ -167,6 +167,9 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
   stream.on("finish", async () => {
     try {
       const { token } = req.cookies;
+      console.log("token----->>"+ token )
+
+      console.log("Decleared token----->>"+ jwtSecret )
       const { title, summary, content } = req.body;
       jwt.verify(token, jwtSecret, {}, async (err, info) => {
         if (err) throw err;

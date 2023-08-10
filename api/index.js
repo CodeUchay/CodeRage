@@ -104,11 +104,13 @@ app.post("/logout", (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/uploads/"); // Set the destination folder for uploaded files
+    cb(null, "public/uploads/");
   },
   filename: function (req, file, cb) {
-    // Set the file name to be the original name
-    cb(null, file.originalname);
+    const ext = path.extname(file.originalname); // Get the file extension
+    const randomFileName = crypto.randomBytes(10).toString("hex"); // Generates 20 characters (10 bytes in hex)
+    const sanitizedFileName = `${randomFileName}${ext}`; // Combine with the extension
+    cb(null, sanitizedFileName);
   },
 });
 
@@ -149,7 +151,7 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
 });
 
 // Serve static files from the "uploads" directory
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 app.get("/post", async (req, res) => {
   res.json(

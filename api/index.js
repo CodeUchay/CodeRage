@@ -85,6 +85,10 @@ app.post("/login", async (req, res) => {
         if (err) {
           return res.status(500).json({ error: "Internal Server Error" });
         }
+        console.log(token);
+        console.log('////')
+        console.log(jwtSecret);
+
         res.cookie("token", token, {
           httpOnly: false,
           secure: false, // Set to true if using HTTPS

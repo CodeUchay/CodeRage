@@ -24,6 +24,7 @@ function Login() {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: { "content-type": "application/json" },
+      credentials: 'include',
     });
 
     if (res.ok) {
@@ -38,7 +39,7 @@ function Login() {
       }, 3500);
     }
   }
-  
+
   if (redirect) {
     return <Navigate to={"/"} />;
   }

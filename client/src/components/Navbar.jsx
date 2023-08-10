@@ -16,13 +16,13 @@ function Navbar() {
   document.body.style.backgroundColor = isDarkMode ? "rgb(2 6 23)" : "white";
   const { userInfo, setUserInfo } = useContext(UserContext);
 
-  
+ 
   useEffect(() => {
     fetch(baseURL + "/profile", {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      }})
+      credentials: 'include',
+      
+      })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch user profile");

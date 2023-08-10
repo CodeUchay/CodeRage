@@ -19,6 +19,7 @@ function Navbar() {
   
   useEffect(() => {
     fetch(baseURL + "/profile", {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       }})

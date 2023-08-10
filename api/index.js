@@ -90,8 +90,7 @@ app.post("/login", async (req, res) => {
         console.log("////");
         console.log(jwtSecret);
 
-        res
-          .cookie("token", token, {
+        res.cookie("token", token, {
             httpOnly: false,
             secure: true, // Set to true if using HTTPS
             sameSite: "None",

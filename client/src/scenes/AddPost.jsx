@@ -16,18 +16,6 @@ function AddPost() {
   const [content, setContent] = useState("");
   const [files, setFiles] = useState("");
   const [redirect, setRedirect] = useState(false);
-
-  function getCookie(name) {
-    const cookies = document.cookie.split('; ');
-    console.log(cookies)
-    for (const cookie of cookies) {
-      const [cookieName, cookieValue] = cookie.split('=');
-      if (cookieName === name) {
-        return decodeURIComponent(cookieValue);
-      }
-    }
-    return null;
-  }
   
   async function createNewPost(e) {
     const data = new FormData();
@@ -40,16 +28,11 @@ function AddPost() {
       alert("Please fill in all required fields.");
       return;
     }
-    const token = getCookie("token");
-
-      console.log(token)
+   
     const response = await fetch(baseURL+"/createpost", {
       method: "POST",
       body: data,
-      
-    headers: {
-      Authorization: `Bearer ${token}`, // Add the Authorization header with the token
-    },
+     credentials: 'include',
     });
     if (response.ok) {
       setRedirect(true);

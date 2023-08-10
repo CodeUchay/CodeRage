@@ -32,7 +32,7 @@ const bucket = admin.storage().bucket();
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://your-production-domain.com"],
+    origin: ["http://localhost:3000", "https://code-rage-blog.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })
 );
@@ -93,7 +93,7 @@ app.post("/login", async (req, res) => {
         res
           .cookie("token", token, {
             httpOnly: false,
-            secure: false, // Set to true if using HTTPS
+            secure: true, // Set to true if using HTTPS
             sameSite: "None",
           })
           .json({

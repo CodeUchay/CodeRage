@@ -150,8 +150,9 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
   });
 });
 
-// Serve static files from the "uploads" directory
-app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+const publicUploadsPath = path.join(__dirname, "public/uploads");
+app.use("/uploads", express.static(publicUploadsPath));
+
 
 app.get("/post", async (req, res) => {
   res.json(

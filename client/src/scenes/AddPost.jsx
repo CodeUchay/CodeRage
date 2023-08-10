@@ -28,9 +28,15 @@ function AddPost() {
       alert("Please fill in all required fields.");
       return;
     }
+    const token = getCookie("token");
+
     const response = await fetch(baseURL+"/createpost", {
       method: "POST",
       body: data,
+      
+    headers: {
+      Authorization: `Bearer ${token}`, // Add the Authorization header with the token
+    },
     });
     if (response.ok) {
       setRedirect(true);

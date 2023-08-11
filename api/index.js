@@ -94,7 +94,7 @@ app.post("/login", async (req, res) => {
 
     if (passOk) {
       // logged in
-      jwt.sign({ email, id: userDoc._id }, jwtSecret, {}, (err, token) => {
+      jwt.sign({ username: userDoc.username, email, id: userDoc._id }, jwtSecret, {}, (err, token) => {
         if (err) {
           return res.status(500).json({ error: "Internal Server Error" });
         }
@@ -107,7 +107,7 @@ app.post("/login", async (req, res) => {
             maxAge: 21600000,
             httpOnly: false,
             secure: true, // Set to true if using HTTPS
-            sameSite: "None",
+            sameSite: None,
           })
           .json({
             id: userDoc._id,

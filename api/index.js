@@ -70,6 +70,18 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.post("/logout", async (req, res) => {
+  // Clear the token cookie by setting its value to an empty string and expiring it
+  res.cookie('token', '', {
+    expires: new Date(0), // Set to a past date
+    httpOnly: true,
+    path: '/', // Set the path to cover the entire domain
+  });
+
+  res.status(200).json({ success: true, message: 'User logged out successfully' });
+});
+
+
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -93,6 +105,7 @@ app.post("/login", async (req, res) => {
 
         res
           .cookie("token", token, {
+            maxAge: 21600000,
             httpOnly: false,
             secure: true, // Set to true if using HTTPS
             sameSite: "None",
@@ -126,9 +139,9 @@ app.get("/profile", (req, res) => {
   });
 });
 
-app.post("/logout", (req, res) => {
-  res.cookie("token", "").json("ok");
-});
+// app.post("/logout", (req, res) => {
+//   res.cookie("token", "").json("ok");
+// });
 
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {

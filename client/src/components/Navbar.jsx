@@ -52,11 +52,9 @@ function Navbar() {
   function logout(){
     setIsMenuOpen(false)
     
-    fetch(baseURL + '/logout', { method: 'POST' })
+    fetch(baseURL + '/logout', { method: 'POST',
+    credentials: 'include', })
     .then(() => {
-      
-      // Clear the token cookie
-      document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       
       setUserInfo(null);
       navigate('/'); // Trigger the redirect after logout

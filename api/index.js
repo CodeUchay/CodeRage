@@ -321,8 +321,13 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
         resumable: false,
       });
 
-      // Update postDoc with new cover URL
-      postDoc.cover = `https://storage.googleapis.com/${bucket.name}/${filename}`;
+      const [downloadUrl] = await file.getSignedUrl({
+        action: "read",
+        expires: "03-01-2500", // Set a reasonable expiration date
+      });
+
+      // Update the postDoc with the download URL
+      postDoc.cover = downloadUrl;
     }
 
     postDoc.title = title;

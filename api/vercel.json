@@ -1,154 +1,22 @@
 {
     "version": 2,
     "builds": [
-        {
-            "src": "index.js",
-            "use": "@vercel/node"
-        }
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
     ],
     "routes": [
-        {
-            "src": "/test",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-            "src": "/register",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-            "src": "/login",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-            "src": "/profile",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-            "src": "/post",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-            "src": "/post/:id",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-          "src": "/post/.*",
-          "dest": "index.js",
-          "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-          "headers": {
-            "Access-Control-Allow-Origin": "*"
-          }
-        },
-        {
-            "src": "/createpost",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-            "src": "/logout",
-            "dest": "index.js",
-            "methods": [
-                "GET",
-                "POST",
-                "PUT",
-                "DELETE",
-                "PATCH",
-                "OPTIONS"
-            ],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-            }
-        },
-        {
-            "src": "/uploads/(.*)",
-            "dest": "/uploads/$1",
-            "methods": [
-              "GET",
-              "POST",
-              "PUT",
-              "DELETE",
-              "PATCH",
-              "OPTIONS"
-          ],
-          "headers": {
-              "Access-Control-Allow-Origin": "*"
-          }
-        }
+      {
+        "src": "/(.*)",
+        "dest": "index.js"
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/index.js"
+      }
     ]
-}
+  }
+  

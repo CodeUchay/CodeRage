@@ -71,7 +71,7 @@ function Register() {
       }, 1000);
     }
   }
-  console.log(email + password + confirmPassword);
+  
   return (
     <div
       className={`bg-${bgColor} flex flex-col gap-5 pt-24 p-16 text-${textColor}`}
@@ -97,7 +97,7 @@ function Register() {
             {usernameError && <p className="text-red-500 text-sm mt-2 flex">{usernameError}</p>}
           </div>
           <div className="mb-6">
-            <label for="email" className="block text-sm leading-6 ">
+            <label htmlFor="email" className="block text-sm leading-6 ">
               Email address
             </label>
             <input
@@ -110,7 +110,7 @@ function Register() {
             />
           </div>
           <div className="mb-6">
-            <label for="password" className="block text-sm leading-6 ">
+            <label htmlFor="password" className="block text-sm leading-6 ">
               Password
             </label>
             <input
@@ -122,7 +122,7 @@ function Register() {
             />
           </div>
           <div className="mb-6">
-            <label for="password" className="block text-sm leading-6 ">
+            <label htmlFor="password" className="block text-sm leading-6 ">
               Confirm Password
             </label>
             <input
@@ -134,7 +134,7 @@ function Register() {
           </div>
           <button
             type="submit"
-            className="inline-flex justify-center rounded-lg text-sm py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full"
+            className="inline-flex justify-center rounded-lg text-sm py-2.5 px-4 bg-purple-600 hover:bg-purple-700 w-full"
           >
             <span className="text-white">Sign up for CodeRage</span>
           </button>

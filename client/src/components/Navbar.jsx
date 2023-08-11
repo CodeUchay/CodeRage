@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ImLeaf } from "react-icons/im";
 import { MdDarkMode } from "react-icons/md";
 import { GiFireDash } from "react-icons/gi";
 import { Link } from "react-router-dom";
@@ -14,6 +13,7 @@ function Navbar() {
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
   document.body.style.backgroundColor = isDarkMode ? "rgb(2 6 23)" : "white";
+  
   const { userInfo, setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
  
@@ -79,13 +79,12 @@ function Navbar() {
         >
           <GiFireDash size={25} className="text-purple-500"></GiFireDash>
           <span className={`text-2xl font-semibold text-purple-500 `}>CodeRage</span>
-          
         </Link>
-        <div className="flex justify-center items-center gap-5">
+        <div className="flex justify-center items-center gap-3 lg:gap-5">
         <MdDarkMode
             size={20}
             onClick={toggleDarkMode}
-            className={`text-${textColor} cursor-pointer`}
+            className={`text-${textColor} cursor-pointer lg:mr-6`}
           />
           {email ? (
             <>

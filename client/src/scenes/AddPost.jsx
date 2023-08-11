@@ -51,7 +51,7 @@ function AddPost() {
       >
         <h1>Create Post</h1>
         <form onSubmit={createNewPost} className=" flex flex-col gap-3">
-          <label for="title" className="block text-sm leading-6 ">
+          <label htmlFor="title" className="block text-sm leading-6 ">
             Title:
           </label>
           <input
@@ -61,7 +61,7 @@ function AddPost() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label for="summary" className="block text-sm leading-6 ">
+          <label htmlFor="summary" className="block text-sm leading-6 ">
             Summary:
           </label>
           <input
@@ -71,7 +71,7 @@ function AddPost() {
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
           />
-          <label for="image" className="block text-sm leading-6 ">
+          <label htmlFor="image" className="block text-sm leading-6 ">
             Image:
           </label>
           <input
@@ -79,13 +79,13 @@ function AddPost() {
             type="file"
             onChange={(e) => setFiles(e.target.files)}
           />
-          <label for="content" className="block text-sm leading-6 ">
+          <label htmlFor="content" className="block text-sm leading-6 ">
             Content:
           </label>
           <Editor value={content} onChange={setContent}></Editor>
           <button
             type="submit"
-            className="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 text-${textColor} hover:bg-purple-700 w-full"
+            className="inline-flex justify-center rounded-lg text-xs font-semibold py-2.5 px-4 bg-purple-600 hover:bg-purple-700 w-full"
           >
             <span className="text-white">Add Post</span>
           </button>

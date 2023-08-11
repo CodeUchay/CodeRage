@@ -93,7 +93,7 @@ app.post("/logout", (req, res) => {
 // });
 
 
-aapp.post("/login", async (req, res) => {
+app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const userDoc = await User.findOne({ email });

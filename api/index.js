@@ -275,35 +275,60 @@ app.get("/post/:id", async (req, res) => {
   res.json(postDoc);
 });
 
-app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
-  let newPath = null;
-  if (req.file) {
-    const { originalname, path } = req.file;
-    const parts = originalname.split(".");
-    const ext = parts[parts.length - 1];
-    newPath = path + "." + ext;
-    fs.renameSync(path, newPath);
-  }
 
-  const { token } = req.cookies;
-  jwt.verify(token, jwtSecret, {}, async (err, info) => {
-    if (err) throw err;
+app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    const decoded = jwt.verify(token, jwtSecret);
+
     const { id, title, summary, content } = req.body;
     const postDoc = await Post.findById(id);
-    const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
-    if (!isAuthor) {
-      return res.status(400).json("you are not the author");
+
+    if (!postDoc) {
+      return res.status(404).json({ error: "Post not found" });
     }
+
+    if (postDoc.author.toString() !== decoded.id) {
+      return res.status(403).json({ error: "You are not the author" });
+    }
+
+    if (req.file) {
+      const { originalname, buffer } = req.file;
+      const parts = originalname.split(".");
+      const ext = parts[parts.length - 1];
+      const filename = `${id}.${ext}`;
+
+      const bucket = admin.storage().bucket(); // Initialize Firebase Storage bucket
+      const file = bucket.file(filename);
+
+      // Delete old image if it exists
+      if (postDoc.cover) {
+        const oldFilename = postDoc.cover.split('/').pop();
+        await bucket.file(oldFilename).delete();
+      }
+
+      // Upload the new image
+      await file.save(buffer, {
+        contentType: `image/${ext}`,
+        resumable: false,
+      });
+
+      // Update postDoc with new cover URL
+      postDoc.cover = `https://storage.googleapis.com/${bucket.name}/${filename}`;
+    }
+
     postDoc.title = title;
     postDoc.summary = summary;
     postDoc.content = content;
-    if (newPath) {
-      postDoc.cover = newPath;
-    }
+
     await postDoc.save();
     res.json(postDoc);
-  });
+  } catch (error) {
+    console.error("Error updating post:", error);
+    res.status(500).json({ error: "An internal server error occurred" });
+  }
 });
+
 
 app.delete("/post/:id", async (req, res) => {
   const postId = req.params.id;

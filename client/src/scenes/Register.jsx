@@ -36,11 +36,30 @@ function Register() {
     return null; // No errors
   }
 
+  function checkPasswordErrors(password) {
+    const minLength = 8;
+
+    if (password.length < minLength) {
+      return `Password must be at least ${minLength} characters long.`;
+    }
+    if (password !== confirmPassword){
+      return `Passwords do not match`;
+    }
+    return null; // No errors
+  }
+
   function handleUsernameChange(e) {
     const newUsername = e.target.value;
     setUsername(newUsername);
     const error = checkUsernameErrors(newUsername);
     setUsernameError(error);
+  }
+
+  function handlePasswordChange(e) {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    const error = checkPasswordErrors(newPassword);
+    setPasswordError(error);
   }
 
   async function handleRegisteration(e) {
@@ -50,7 +69,11 @@ function Register() {
     const usernameError = checkUsernameErrors(username);
     setUsernameError(usernameError);
 
-    if (!usernameError && password === confirmPassword) {
+     // Check for password errors
+     const passwordError = checkPasswordErrors(password);
+     setPasswordError(passwordError);
+
+    if (!usernameError && !passwordError && password === confirmPassword) {
       setPasswordError(false); // Reset password error state
 
       const res = await fetch(baseURL + "/register", {
@@ -62,14 +85,9 @@ function Register() {
         alert("registration successful, please login");
         navigate('/login'); // Trigger the redirect after registeration
       } else {
-        alert("registration failed");
+        alert("registration failed, you already have an account, please login");
       }
-    } else {
-      setPasswordError(true);
-      setTimeout(() => {
-        setPasswordError(false);
-      }, 1000);
-    }
+    } 
   }
   
   return (
@@ -92,7 +110,7 @@ function Register() {
               className={`mt-2 text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-purple-100 focus:ring-purple-300 ring-1 `}
               onChange={handleUsernameChange}
               value={username}
-              required="true"
+              required
             />
             {usernameError && <p className="text-red-500 text-sm mt-2 flex">{usernameError}</p>}
           </div>
@@ -106,7 +124,7 @@ function Register() {
               className={`mt-2 text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-purple-100 focus:ring-purple-300 ring-1 `}
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              required="true"
+              required
             />
           </div>
           <div className="mb-6">
@@ -116,10 +134,11 @@ function Register() {
             <input
               type="password"
               className="mt-2 appearance-none text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-purple-100 focus:ring-purple-200  ring-1 "
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               value={password}
-              required="true"
+              required
             />
+             {passwordError && <p className="text-red-500 text-sm mt-2 flex">{passwordError}</p>}
           </div>
           <div className="mb-6">
             <label htmlFor="password" className="block text-sm leading-6 ">
@@ -129,7 +148,7 @@ function Register() {
               type="password"
               className="mt-2 appearance-none text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-purple-100 focus:ring-purple-200  ring-1 "
               onChange={(e) => setConfirmPassword(e.target.value)}
-              required="true"
+              required
             />
           </div>
           <button
@@ -138,11 +157,6 @@ function Register() {
           >
             <span className="text-white">Sign up for CodeRage</span>
           </button>
-          {passwordError && (
-            <p className="text-red-500 text-sm mt-2 flex">
-              Passwords do not match
-            </p>
-          )}
         </form>
       </div>
     </div>

@@ -32,7 +32,7 @@ function PostCard({ _id, title, summary, cover, content, createdAt, author }) {
         <div className="mt-4 flex justify-end">
           <Link
             to={`/post/${_id}`}
-            className={`px-4 py-2 rounded-md text-${textColor} border border-purple-500 shadow-sm hover:bg-purple-500 font-semibold transition-colors`}
+            className={`px-4 py-2 rounded-md text-${textColor}  bg-purple-500 shadow-sm hover:bg-purple-600 font-semibold transition-colors`}
           >
             Read More
           </Link>

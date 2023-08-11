@@ -2,6 +2,7 @@ import React from "react";
 import { GiFireDash } from "react-icons/gi";
 import { ThemeContext } from "../theme";
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const { isDarkMode, baseURL } = useContext(ThemeContext);
@@ -14,6 +15,8 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+
+  const navigate = useNavigate();
 
   function checkUsernameErrors(username) {
     const isValid = /^[a-zA-Z0-9_]+$/.test(username); // Test if username contains only letters, numbers, and underscores
@@ -57,6 +60,7 @@ function Register() {
       });
       if (res.status === 200) {
         alert("registration successful");
+        navigate('/'); // Trigger the redirect after registeration
       } else {
         alert("registration failed");
       }
@@ -90,7 +94,7 @@ function Register() {
               value={username}
               required="true"
             />
-            {usernameError && <p>{usernameError}</p>}
+            {usernameError && <p className="text-red-500 text-sm mt-2 flex">{usernameError}</p>}
           </div>
           <div className="mb-6">
             <label for="email" className="block text-sm leading-6 ">

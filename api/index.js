@@ -74,7 +74,7 @@ app.post("/logout", async (req, res) => {
   // Clear the token cookie by setting its value to an empty string and expiring it
   res.cookie('token', '', {
     expires: new Date(Date.now() + 5 * 1000),
-    httpOnly: true,
+    httpOnly: false,
     path: '/', // Set the path to cover the entire domain
   });
 

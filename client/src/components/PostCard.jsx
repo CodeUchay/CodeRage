@@ -9,6 +9,7 @@ function PostCard({ _id, title, summary, cover, content, createdAt, author }) {
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
 
+  
   return (
     <div
       className={`p-3 md:p-5 flex flex-col md:flex-row w-full max-w-3xl mx-auto rounded-lg bg-${bgColor} text-${textColor} shadow-md transition-shadow`}
@@ -32,7 +33,7 @@ function PostCard({ _id, title, summary, cover, content, createdAt, author }) {
         <div className="mt-4 flex justify-end">
           <Link
             to={`/post/${_id}`}
-            className={`px-4 py-2 rounded-md text-${textColor}  bg-purple-500 shadow-sm hover:bg-purple-600 font-semibold transition-colors`}
+            className={`px-4 py-2 rounded-md text-white  bg-purple-500 shadow-sm hover:bg-purple-600 font-semibold transition-colors`}
           >
             Read More
           </Link>

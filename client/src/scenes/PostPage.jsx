@@ -43,7 +43,7 @@ function PostPage() {
       console.error(error);
     }
   };
-
+  
   return (
     <div
       className={`flex flex-col gap-5 pt-28 p-16 md:pt-32 md:px-36 ${bgColor} ${textColor}`}

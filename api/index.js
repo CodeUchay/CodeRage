@@ -37,7 +37,6 @@ app.use(
   })
 );
 
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -71,14 +70,13 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/logout", async (req, res) => {
+app.post("/logout",  (req, res) => {
   // Clear the token cookie by setting its value to an empty string and expiring it
   res.cookie('token', '', {
     expires: new Date(Date.now() + 5 * 1000),
     httpOnly: false,
     path: '/', // Set the path to cover the entire domain
   });
-
   res.status(200).json({ success: true, message: 'User logged out successfully' });
 });
 

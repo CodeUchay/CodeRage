@@ -53,6 +53,7 @@ function Navbar() {
     setIsMenuOpen(false)
     
     fetch(baseURL + '/logout', { method: 'POST',
+    headers: { "content-type": "application/json" },
     credentials: 'include', })
     .then(() => {
       

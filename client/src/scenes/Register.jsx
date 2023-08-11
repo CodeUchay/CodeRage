@@ -59,8 +59,8 @@ function Register() {
         headers: { "Content-Type": "application/json" },
       });
       if (res.status === 200) {
-        alert("registration successful");
-        navigate('/'); // Trigger the redirect after registeration
+        alert("registration successful, please login");
+        navigate('/login'); // Trigger the redirect after registeration
       } else {
         alert("registration failed");
       }

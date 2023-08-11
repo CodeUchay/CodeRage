@@ -111,9 +111,11 @@ app.post("/login", async (req, res) => {
           })
           .json({
             id: userDoc._id,
-            username, 
+            username: userDoc.username, 
             email,
           });
+          console.log("33333/");
+          console.log(userDoc.username);
       });
     } else {
       res.status(401).json({ error: "Wrong credentials" });

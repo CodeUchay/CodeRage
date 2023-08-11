@@ -108,7 +108,7 @@ function PostPage() {
             <img
               src={`${postInfo.cover}`}
               alt=""
-              className="rounded-lg max-h-80  min-w-full object-cover"
+              className="rounded-lg max-h-80  min-w-full md:w-1/2 object-cover"
             />
           </div>
         </div>

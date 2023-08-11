@@ -7,7 +7,7 @@ import { ThemeContext } from "../theme";
 import { useContext } from "react";
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { UserContext } from "../UserContext";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const { isDarkMode, toggleDarkMode, baseURL } = useContext(ThemeContext);
@@ -15,7 +15,7 @@ function Navbar() {
   const textColor = isDarkMode ? "white" : "black";
   document.body.style.backgroundColor = isDarkMode ? "rgb(2 6 23)" : "white";
   const { userInfo, setUserInfo } = useContext(UserContext);
-
+  const navigate = useNavigate();
  
   useEffect(() => {
     fetch(baseURL + "/profile", {
@@ -51,9 +51,15 @@ function Navbar() {
 
   function logout(){
     setIsMenuOpen(false)
-    fetch(baseURL+'/logout', {method: 'POST'} );
-    setUserInfo(null);
-    <Navigate to={'/'}/>
+    
+    fetch(baseURL + '/logout', { method: 'POST' })
+    .then(() => {
+      setUserInfo(null);
+      navigate('/'); // Trigger the redirect after logout
+    })
+    .catch((error) => {
+      console.error('Logout error:', error);
+    });
   }
 
   return (

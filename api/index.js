@@ -304,7 +304,15 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
       // Delete old image if it exists
       if (postDoc.cover) {
         const oldFilename = postDoc.cover.split('/').pop();
-        await bucket.file(oldFilename).delete();
+        const bucket = admin.storage().bucket();
+      
+        // Check if the old image file exists
+        const [exists] = await bucket.file(oldFilename).exists();
+        if (exists) {
+          await bucket.file(oldFilename).delete();
+        } else {
+          console.log(`Old image file (${oldFilename}) does not exist`);
+        }
       }
 
       // Upload the new image

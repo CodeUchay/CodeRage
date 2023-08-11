@@ -4,7 +4,7 @@ import Editor from "../components/Editor";
 import { ThemeContext } from "../theme";
 
 export default function EditPost() {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { isDarkMode, baseURL } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
   const shadowColor = isDarkMode ? "white" : "";
@@ -16,7 +16,12 @@ export default function EditPost() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:5000/post/" + id).then((response) => {
+    fetch(baseURL +"/post/" + id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
       response.json().then((postInfo) => {
         setTitle(postInfo.title);
         setContent(postInfo.content);
@@ -35,7 +40,7 @@ export default function EditPost() {
     if (files?.[0]) {
       data.set("file", files?.[0]);
     }
-    const response = await fetch("http://localhost:5000/post", {
+    const response = await fetch(baseURL+"/post", {
       method: "PUT",
       body: data,
       credentials: "include",

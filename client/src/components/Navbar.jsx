@@ -48,7 +48,7 @@ function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
+
   function logout() {
     setIsMenuOpen(false);
   

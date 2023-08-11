@@ -77,8 +77,8 @@ function Navbar() {
           to="/"
           className="flex justify-center items-center gap-1 cursor-pointer"
         >
-          <GiFireDash size={25} className="text-purple-500 "></GiFireDash>
-          <span className={`text-2xl font-semibold text-purple-500`}>CodeRage</span>
+          <GiFireDash size={25} className="text-purple-500"></GiFireDash>
+          <span className={`text-2xl font-semibold text-purple-500 `}>CodeRage</span>
           
         </Link>
         <div className="flex justify-center items-center gap-5">
@@ -107,10 +107,10 @@ function Navbar() {
           ) : (
             <>
               <Link to="/Login">
-                <button className="text-purple-400 hover:text-purple-600 hover:underline">Login</button>
+                <button className="text-purple-600 hover:text-purple-600 hover:underline">Login</button>
               </Link>
               <Link to="/Register">
-                <button className="text-purple-400  hover:text-purple-600 hover:underline">Register</button>
+                <button className="text-purple-600  hover:text-purple-600 hover:underline">Register</button>
               </Link>
             </>
           )}

@@ -51,7 +51,7 @@ function AddPost() {
       >
         <h1>Create Post</h1>
         <form onSubmit={createNewPost} className=" flex flex-col gap-3">
-          <label for="email" className="block text-sm leading-6 ">
+          <label for="title" className="block text-sm leading-6 ">
             Title:
           </label>
           <input
@@ -61,7 +61,7 @@ function AddPost() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <label for="email" className="block text-sm leading-6 ">
+          <label for="summary" className="block text-sm leading-6 ">
             Summary:
           </label>
           <input
@@ -71,7 +71,7 @@ function AddPost() {
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
           />
-          <label for="email" className="block text-sm leading-6 ">
+          <label for="image" className="block text-sm leading-6 ">
             Image:
           </label>
           <input
@@ -79,7 +79,7 @@ function AddPost() {
             type="file"
             onChange={(e) => setFiles(e.target.files)}
           />
-          <label for="email" className="block text-sm leading-6 ">
+          <label for="content" className="block text-sm leading-6 ">
             Content:
           </label>
           <Editor value={content} onChange={setContent}></Editor>

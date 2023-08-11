@@ -40,7 +40,7 @@ function Navbar() {
   
 
   const email = userInfo?.email
-
+  const username = userInfo?.username
   // State to control the hamburger menu
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -83,7 +83,7 @@ function Navbar() {
           {email ? (
             <>
             <div className="hidden lg:flex md:gap-5 md:justify-center md:items-center">
-            <h1 className=" text-sm text-gray-400">User: {email}</h1><Link to="/addpost">
+            <h1 className=" text-sm text-gray-400">User: {username}</h1><Link to="/addpost">
             <button className=" bg-purple-600 p-3 text-white hover:bg-purple-700 rounded">Add Post</button>
           </Link>
           
@@ -114,7 +114,7 @@ function Navbar() {
       {isMenuOpen && (
         <div className={`{px-4 py-2 bg-${bgColor} lg:hidden`}>
           <div className={`mx-8 p-3 flex flex-col gap-4 `}>
-          <h1 className="text-sm -mt-6 text-gray-400">User: {email}</h1>
+          <h1 className="text-sm -mt-6 text-gray-400">User: {username}</h1>
             <Link to={'/addpost'}  onClick={()=> setIsMenuOpen(false)} ><button className="block w-full p-3 text-white bg-purple-500 rounded hover:bg-purple-600 hover:text-white">
               Add Post
             </button>

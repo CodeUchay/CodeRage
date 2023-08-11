@@ -24,7 +24,7 @@ function PostCard({ _id, title, summary, cover, content, createdAt, author }) {
         <div>
           <h2 className="text-lg font-semibold leading-5 lg:text-2xl">{title}</h2>
           <div className="text-xs lg:text-sm mt-2 text-gray-600">
-            <p className="">by: {author.email}</p>
+            <p className="">by: {author.username}</p>
             <time>{formatISO9075(new Date(createdAt))}</time>
           </div>
           <p className="text-sm mt-4 lg:text-base leading-4 ">{summary}</p>

@@ -56,9 +56,10 @@ app.get("/test", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
   try {
     const userDoc = await User.create({
+      username, 
       email,
       password: bcrypt.hashSync(password, salt),
     });
@@ -98,6 +99,7 @@ app.post("/login", async (req, res) => {
           })
           .json({
             id: userDoc._id,
+            username, 
             email,
           });
       });
@@ -242,7 +244,7 @@ app.post("/createpost", uploadMiddleware.single("file"), async (req, res) => {
 app.get("/post", async (req, res) => {
   res.json(
     await Post.find()
-      .populate("author", ["email"])
+      .populate("author", ["username"]) //replaced email for username
       .sort({ createdAt: -1 })
       .limit(20)
   );
@@ -250,7 +252,7 @@ app.get("/post", async (req, res) => {
 
 app.get("/post/:id", async (req, res) => {
   const { id } = req.params;
-  const postDoc = await Post.findById(id).populate("author", ["email"]);
+  const postDoc = await Post.findById(id).populate("author", ["username"]); // replaced email with username 
   res.json(postDoc);
 });
 

@@ -48,15 +48,15 @@ function PostPage() {
     <div
       className={`flex flex-col gap-5 pt-28 p-16 md:pt-32 md:px-36 ${bgColor} ${textColor}`}
     >
-      <div className="w-full max-w-3xl mx-auto ">
-        <div className="lg:flex lg:justify-center lg:gap-4 w-full max-w-3xl ">
+      <div className="w-full max-w-3xl mx-auto">
+        <div className="lg:flex lg:justify-center lg:gap-4">
           <div>
             <h1 className="text-2xl lg:text-3xl font-bold">{postInfo.title}</h1>
             <time className="text-gray-600 text-sm">
               {formatISO9075(new Date(postInfo.createdAt))}
             </time>
             <div className="author text-gray-600 text-sm">
-              by: {postInfo.author.email}
+              by: {postInfo.author.username}
             </div>
             {userInfo && userInfo.id === postInfo.author._id && (
               <div className=" mt-4 flex gap-3">

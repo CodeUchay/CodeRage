@@ -77,8 +77,9 @@ function Navbar() {
           to="/"
           className="flex justify-center items-center gap-1 cursor-pointer"
         >
-          <span className={`text-xl font-semibold text-purple-500`}>CodeRage</span>
-          <GiFireDash size={20} className="text-purple-500 "></GiFireDash>
+          <GiFireDash size={25} className="text-purple-500 "></GiFireDash>
+          <span className={`text-2xl font-semibold text-purple-500`}>CodeRage</span>
+          
         </Link>
         <div className="flex justify-center items-center gap-5">
         <MdDarkMode

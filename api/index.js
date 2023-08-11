@@ -31,6 +31,7 @@ const bucket = admin.storage().bucket();
 
 app.use(
   cors({
+    credentials: true,
     origin: ["http://localhost:3000", "https://code-rage-blog.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })

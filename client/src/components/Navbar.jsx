@@ -48,23 +48,26 @@ function Navbar() {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  function logout(){
-    setIsMenuOpen(false)
-    
-    fetch(baseURL + '/logout', { method: 'POST',
-    headers: { "content-type": "application/json" },
-    credentials: 'include', })
-    .then(() => {
-      
-      setUserInfo(null);
-      navigate('/'); // Trigger the redirect after logout
+  
+  function logout() {
+    setIsMenuOpen(false);
+  
+    fetch(baseURL + '/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json', // Set the content type header
+      },
+      credentials: 'include',
     })
-    .catch((error) => {
-      console.error('Logout error:', error);
-    });
+      .then(() => {
+        setUserInfo(null);
+        navigate('/'); // Trigger the redirect after logout
+      })
+      .catch((error) => {
+        console.error('Logout error:', error);
+      });
   }
-
+  
   return (
     <div
       className={`container fixed mx-auto text-${textColor} bg-white top-0 left-0 right-0 z-10`}

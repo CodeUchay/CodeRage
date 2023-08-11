@@ -70,18 +70,30 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.post("/logout",  (req, res) => {
+app.post("/logout", (req, res) => {
   // Clear the token cookie by setting its value to an empty string and expiring it
   res.cookie('token', '', {
-    expires: new Date(Date.now() + 5 * 1000),
-    httpOnly: false,
+    expires: new Date(Date.now() + 5 * 1000), // Expire the cookie after 5 seconds
+    httpOnly: false, // Allow JavaScript to access the cookie (for logout purposes)
     path: '/', // Set the path to cover the entire domain
+    secure: true, // Set to true if using HTTPS
+    sameSite: 'None', // Set to 'None' if using cross-site requests
   });
   res.status(200).json({ success: true, message: 'User logged out successfully' });
 });
 
+// app.post("/logout",  (req, res) => {
+//   // Clear the token cookie by setting its value to an empty string and expiring it
+//   res.cookie('token', '', {
+//     expires: new Date(Date.now() + 5 * 1000),
+//     httpOnly: false,
+//     path: '/', // Set the path to cover the entire domain
+//   });
+//   res.status(200).json({ success: true, message: 'User logged out successfully' });
+// });
 
-app.post("/login", async (req, res) => {
+
+aapp.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const userDoc = await User.findOne({ email });
@@ -98,24 +110,17 @@ app.post("/login", async (req, res) => {
         if (err) {
           return res.status(500).json({ error: "Internal Server Error" });
         }
-        console.log(token);
-        console.log("////");
-        console.log(jwtSecret);
 
-        res
-          .cookie("token", token, {
-            maxAge: 21600000,
-            httpOnly: false,
-            secure: true, // Set to true if using HTTPS
-            sameSite: None,
-          })
-          .json({
-            id: userDoc._id,
-            username: userDoc.username, 
-            email,
-          });
-          console.log("33333/");
-          console.log(userDoc.username);
+        res.cookie("token", token, {
+          maxAge: 21600000, // Set the max age of the cookie (6 hours in milliseconds)
+          httpOnly: true, // Set httpOnly to true for security
+          secure: true, // Set to true if using HTTPS
+          sameSite: "None", // Set sameSite to "None" for cross-site cookies
+        }).json({
+          id: userDoc._id,
+          username: userDoc.username,
+          email,
+        });
       });
     } else {
       res.status(401).json({ error: "Wrong credentials" });

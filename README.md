@@ -18,21 +18,11 @@ CodeRage is a dynamic tech blog that provides a wide range of articles, tutorial
 
 Follow these steps to get started with CodeRage:
 
-1. Clone this repository: `git clone https://github.com/your-username/coderage.git`
+1. Clone this repository: `git clone https://github.com/codeuchay/coderage.git`
 2. Navigate to the project directory: `cd coderage`
 3. Install dependencies: `npm install`
 4. Start the development server: `npm start`
 5. Open your browser and visit: `http://localhost:3000`
-
-## Contributing
-
-We welcome contributions from the community! If you'd like to contribute, please follow these steps:
-
-1. Fork this repository.
-2. Create a new branch: `git checkout -b feature/your-feature-name`
-3. Make your changes and commit them.
-4. Push your changes to your fork: `git push origin feature/your-feature-name`
-5. Create a Pull Request (PR) from your fork to this repository.
 
 ## Contact
 

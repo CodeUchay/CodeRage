@@ -94,7 +94,7 @@ function Navbar() {
             <button className=" bg-purple-600 p-3 text-white hover:bg-purple-700 rounded">Add Post</button>
           </Link>
           
-            <button onClick={logout} className=" bg-red-500 hover:bg-red-600 p-3 text-white rounded">LogOut</button>
+            <button onClick={logout} className=" text-red-500  border border-red-500 hover:bg-red-600 hover:text-white p-3 rounded">LogOut</button>
          
           </div>
           
@@ -126,7 +126,7 @@ function Navbar() {
               Add Post
             </button>
             </Link>
-            <button onClick={logout} className="block w-full mt-2 bg-red-500 hover:bg-red-600 p-3 text-white rounded">
+            <button onClick={logout} className="block w-full mt-2 text-red-500  border border-red-500 hover:bg-red-600 hover:text-white p-3 rounded">
               Logout
             </button></div>
         </div>

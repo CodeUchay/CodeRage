@@ -67,7 +67,7 @@ function AddPost() {
           <input
             className={` text-black rounded-md block w-full px-3 h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-slate-400 focus:ring-2 ring-purple-100 focus:ring-purple-300 ring-1 `}
             type="summary"
-            placeholder="summary"
+            placeholder="Summary"
             value={summary}
             onChange={(e) => setSummary(e.target.value)}
           />

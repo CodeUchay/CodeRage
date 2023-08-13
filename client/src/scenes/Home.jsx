@@ -7,7 +7,7 @@ function Home() {
   const { isDarkMode, baseURL } = useContext(ThemeContext);
   const bgColor = isDarkMode ? "slate-950" : "white";
   const textColor = isDarkMode ? "white" : "black";
-  const bgSkeleton = isDarkMode ? "purple-600" : "gray-300";
+  const bgSkeleton = isDarkMode ? "purple-600" : "purple-600";
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); // Add isLoading state
 
